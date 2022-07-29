@@ -377,8 +377,6 @@ Renderer.drawScene = function (gl, shader) {
   var ratio = width / height;
   var stack = new MatrixStack();
 
-  let is_day = document.getElementById("daylight-select").value == "day";
-
   if (!shader.is_shadow)
     gl.viewport(0, 0, width, height);
 
@@ -386,10 +384,9 @@ Renderer.drawScene = function (gl, shader) {
 
   // Clear the framebuffer
 
-  if (is_day)
+
     gl.clearColor(0.34, 0.5, 0.74, 1.0);
-  else
-    gl.clearColor(0, 0.05, 0.2, 1.0);
+
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   Renderer.cameras[Renderer.currentCamera].update(this.car.frame);
@@ -400,7 +397,7 @@ Renderer.drawScene = function (gl, shader) {
       glMatrix.mat4.perspective(glMatrix.mat4.create(), 3.14 / 4, ratio, 1, 500));
 
     gl.uniform3fv(shader.uSunDirectionLocation, Game.scene.weather.sunLightDirection);
-    gl.uniform3fv(shader.uSunColorLocation, is_day ? [.6, .6, .6] : [0, 0, 0]);
+    gl.uniform3fv(shader.uSunColorLocation, [.6, .6, .6]);
   }
 
   // headlights
