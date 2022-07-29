@@ -13,24 +13,7 @@ ChaseCamera = function () {
   }
 }
 
-RotatingChaseCamera = function () {
-  let angle = 0;
-  let cfinv = glMatrix.mat4.create();
 
-  this.update = (car_frame) => {
-    glMatrix.mat4.invert(cfinv, car_frame);
-    angle += 0.001;
-  }
-
-  this.matrix = () => {
-    let m = glMatrix.mat4.create();
-    let eye = glMatrix.vec3.fromValues(0, 3, 10);
-    let center = [0, 1, 0];
-    glMatrix.vec3.rotateY(eye, eye, center, angle);
-    glMatrix.mat4.lookAt(m, eye, center, [0, 1, 0]);
-    return glMatrix.mat4.multiply(m, m, cfinv);
-  }
-}
 
 FreeCamera = function () {
   let frame = glMatrix.mat4.create();
@@ -104,10 +87,9 @@ var Renderer = new Object();
 Renderer.cameras = [];
 Renderer.cameras.push(new FollowFromUpCamera());
 Renderer.cameras.push(new ChaseCamera());
-Renderer.cameras.push(new RotatingChaseCamera());
 Renderer.cameras.push(new FreeCamera());
 // set the camera currently in use
-Renderer.currentCamera = 3;
+Renderer.currentCamera = 2;
 
 /*
 create the buffers for an object as specified in common/shapes/triangle.js
@@ -651,7 +633,7 @@ Renderer.setupAndStart = function () {
 }
 
 on_mouseMove = function (e) {
-  Renderer.cameras[3].update_angle(e.movementX, e.movementY);
+  Renderer.cameras[2].update_angle(e.movementX, e.movementY);
 }
 
 on_keyup = function (e) {
