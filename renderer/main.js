@@ -35,7 +35,7 @@ RotatingChaseCamera = function () {
 FreeCamera = function () {
   let frame = glMatrix.mat4.create();
   let xangle = 0, yangle = 0;
-  let eye = glMatrix.vec3.create();
+  let eye = glMatrix.vec3.fromValues(0, 1, 0);
   let zero = glMatrix.vec3.create();
   let up = glMatrix.vec3.fromValues(0, 1, 0);
 
@@ -280,7 +280,7 @@ Renderer.drawCar = function (gl, shader, stack) {
 
   stack.multiply(glMatrix.mat4.fromTranslation(m, [0, .5, 0]))
   bind()
-  draw(this.teapot, [1, 0, 0]);
+  draw(this.teapot, [0, 0.8, 0.2]);
 
   stack.push();
 
