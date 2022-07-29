@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <script type="text/javascript">
+    function log(msg) {
+      var textarea = document.getElementById("log");
+      textarea.innerHTML += (msg + "\n");
+      textarea.scrollTop = textarea.scrollHeight;
+    }
+  </script>
+
+  <script type="text/javascript" src="./common/libs/gl-matrix/dist/gl-matrix.js"></script>
+  <script type="text/javascript" src="./common/libs/matrix-stack.js">				    </script>
+  <script type="text/javascript" src="./common/libs/compute_normals.js">				    </script>
+  <script type="text/javascript" src="./common/json_gpu_loader.js">				    </script>
+  <script type="text/javascript" src="./common/shapes/track_maker.js">                  </script>
+  <script type="text/javascript" src="./common/shapes/building_maker.js">              </script>
+  <script type="text/javascript" src="./common/shapes/quadrilateral.js">        </script>
+  <script type="text/javascript" src="./common/shapes/triangle_car.js">			      	</script>
+  <script type="text/javascript" src="./common/shapes/cube.js">			      	</script>
+  <script type="text/javascript" src="./common/shapes/cylinder.js">			      	</script>
+  <script type="text/javascript" src="./common/models/wheel.json">			      	</script>
+  <script type="text/javascript" src="./common/models/teapot.json">			      	</script>
+  <script type="text/javascript" src="./common/scenes/scene_0.js">			      	</script>
+  <script type="text/javascript" src="./common/game.js"></script>
+  <script type="text/javascript" src="./renderer/models/headlight.json">			      	</script>
+  <script type="text/javascript" src="./renderer/shaders.js">				</script>
+  <script type="text/javascript" src="./renderer/depth_shader.js">				</script>
+  <script type="text/javascript" src="./renderer/main.js">							</script>
+
+</head>
+
+<body>
+  <div tabindex="1">
+    <canvas tabindex='1' id="OUTPUT-CANVAS" width="1024px" height="1024px" style="border: 1px solid black"></canvas>
+  </div>
+
+  <div>Controlli: frecce per la macchina, WASD, spazio e shift per la free camera </div>
+  <div>
+    <select id="camera-select">
+      <option value="0">follow from up camera</option>
+      <option value="1">chase camera</option>
+      <option value="2">rotating chase camera</option>
+      <option value="3">free camera</option>
+    </select>
+  </div>
+  <select id="daylight-select">
+    <option value="day">giorno</option>
+    <option value="night">notte</option>
+  </select></div>
+  <br>
+  <div>
+    <textarea id="log" rows="10" cols="60"></textarea>
+  </div>
+</body>
+
+</html>
