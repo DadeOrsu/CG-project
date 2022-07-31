@@ -39,14 +39,14 @@ Shader = function (gl) {
 
       vTexCoords = aTexCoords;
 
-      // per calcolare la normale con flat shading (edifici) e per il falloff
+      // for computing of flat shading (buildings) and the falloff
       vHlPos[0] = uLeftHeadlightViewMatrix * posWS;
       vHlPos[1] = uRightHeadlightViewMatrix * posWS;
 
       vHlPosProj[0] = uHeadlightProjMatrix * vHlPos[0];
       vHlPosProj[1] = uHeadlightProjMatrix * vHlPos[1];
 
-      // solo trasformazioni che preservano gli angoli
+      // only angle-preserving transformations
       vHeadlightNormal[0] = (uLeftHeadlightViewMatrix * uModelMatrix * vec4(aNormal, 0)).xyz;
       vHeadlightNormal[1] = (uRightHeadlightViewMatrix * uModelMatrix * vec4(aNormal, 0)).xyz;
 

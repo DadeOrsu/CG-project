@@ -180,22 +180,8 @@ Renderer.drawObject = function (gl, shader, obj, fillColor, isSpec, tex, isFlat,
   gl.bindBuffer(gl.ARRAY_BUFFER, null);
 };
 
-/* move wheel down so that it rotates around the x axis */
-function translate_wheel() {
-  let pos = wheel.vertices[0].values;
-  let max = -Infinity;
-  let min = +Infinity;
 
-  for (let i = 1; i < pos.length; i += 3) {
-    max = Math.max(max, pos[i]);
-    min = Math.min(min, pos[i]);
-  }
 
-  let off = (max - min) / 2;
-
-  for (let i = 1; i < pos.length; i += 3)
-    pos[i] -= off;
-}
 
 /*
 initialize the object in the scene
@@ -206,7 +192,22 @@ Renderer.initializeObjects = function (gl) {
 
   this.cube = new Cube();
   this.cylinder = new Cylinder(10);
-  translate_wheel();
+
+  /* move wheel down so that it rotates around the x axis */
+  let pos = wheel.vertices[0].values;
+  let max = -Infinity;
+  let min = +Infinity;
+
+  for (let i = 1; i < pos.length; i += 3) {
+    max = Math.max(max, pos[i]);
+    min = Math.min(min, pos[i]);
+  }
+
+  let off = (max - min) / 2;
+  for (let i = 1; i < pos.length; i += 3)
+    pos[i] -= off;
+  
+  
   this.wheel = loadOnGPU(gl, wheel);
   this.teapot = loadOnGPU(gl, teapot);
   this.headlight = loadOnGPU(gl, headlight);
@@ -235,12 +236,9 @@ Renderer.bindModelViewMatrix = function (gl, shader, stack) {
   gl.uniformMatrix4fv(shader.uModelMatrixLocation, false, stack.matrix);
   if (shader.is_shadow)
     return;
-
   let m = glMatrix.mat4.create();
   glMatrix.mat4.multiply(m, this.view, stack.matrix);
-
   gl.uniformMatrix4fv(shader.uViewMatrixLocation, false, this.view);
-
   glMatrix.mat4.invert(m, m);
   glMatrix.mat4.transpose(m, m);
   gl.uniformMatrix4fv(shader.uNormalMatrixLocation, false, m);
@@ -252,8 +250,7 @@ draw the car
 */
 Renderer.drawCar = function (gl, shader, stack) {
   let bind = () => this.bindModelViewMatrix(gl, shader, stack);
-  let draw = (obj, color) =>
-    this.drawObject(gl, shader, obj, [...color, 1], true);
+  let draw = (obj, color) => this.drawObject(gl, shader, obj, [...color, 1], true);
 
   let m = glMatrix.mat4.create();
   let q = glMatrix.quat.create();
@@ -365,9 +362,7 @@ Renderer.drawScene = function (gl, shader) {
   gl.enable(gl.DEPTH_TEST);
 
   // Clear the framebuffer
-
-
-    gl.clearColor(0.34, 0.5, 0.74, 1.0);
+  gl.clearColor(0.34, 0.5, 0.74, 1.0);
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -376,8 +371,7 @@ Renderer.drawScene = function (gl, shader) {
 
   if (!shader.is_shadow) {
     gl.uniformMatrix4fv(shader.uProjectionMatrixLocation, false,
-      glMatrix.mat4.perspective(glMatrix.mat4.create(), 3.14 / 4, ratio, 1, 500));
-
+    glMatrix.mat4.perspective(glMatrix.mat4.create(), 3.14 / 4, ratio, 1, 500));
     gl.uniform3fv(shader.uSunDirectionLocation, Game.scene.weather.sunLightDirection);
     gl.uniform3fv(shader.uSunColorLocation, [.6, .6, .6]);
   }
@@ -406,8 +400,7 @@ Renderer.drawScene = function (gl, shader) {
 
   if (shader.is_shadow) {
     let m = glMatrix.mat4.create();
-    glMatrix.mat4.multiply(m, hl_proj,
-      shader.drawing_left ? hl_view_left : hl_view_right);
+    glMatrix.mat4.multiply(m, hl_proj,shader.drawing_left ? hl_view_left : hl_view_right);
     gl.uniformMatrix4fv(shader.uVPLocation, false, m);
   } else {
     gl.uniformMatrix4fv(shader.uLeftHeadlightViewMatrixLocation, false, hl_view_left);

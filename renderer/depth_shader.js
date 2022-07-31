@@ -17,9 +17,7 @@ DepthShader = function (gl) {
   // create the vertex shader
 
   var vertexShader = gl.createShader(gl.VERTEX_SHADER);
-
   gl.shaderSource(vertexShader, vertexShaderSource);
-
   gl.compileShader(vertexShader);
 
 
@@ -27,9 +25,7 @@ DepthShader = function (gl) {
   // create the fragment shader
 
   var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-
   gl.shaderSource(fragmentShader, fragmentShaderSource);
-
   gl.compileShader(fragmentShader);
 
 
@@ -49,17 +45,11 @@ DepthShader = function (gl) {
   // If creating the shader program failed, alert
 
   if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-
     var str = "Unable to initialize the shader program.n";
-
     str += "VS:\n" + gl.getShaderInfoLog(vertexShader) + "\n";
-
     str += "FS:\n" + gl.getShaderInfoLog(fragmentShader) + "\n";
-
     str += "PROG:\n" + gl.getProgramInfoLog(shaderProgram);
-
     alert(str);
-
   }
 
 
@@ -68,10 +58,7 @@ DepthShader = function (gl) {
   shaderProgram.uVPLocation = gl.getUniformLocation(shaderProgram, "uVP");
   shaderProgram.uModelMatrixLocation = gl.getUniformLocation(shaderProgram, "uModelMatrix");
   shaderProgram.vertex_shader = vertexShaderSource;
-
   shaderProgram.fragment_shader = fragmentShaderSource;
-
   shaderProgram.is_shadow = true;
   return shaderProgram;
-
 };
